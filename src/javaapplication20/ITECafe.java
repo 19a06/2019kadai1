@@ -4,6 +4,7 @@ package javaapplication20;
  *
  * @author kbc19a06
  */
+import java.util.Calendar;
 import java.util.Scanner;
 
 public class ITECafe {
@@ -39,46 +40,226 @@ public class ITECafe {
         items[9] = Chocolateparfait;
         items[10] = yokosukacurry;
         items[11] = harekazecurry;
+        
+         // 買い物かご
+        cart kago = new cart();
 
         Scanner scan = new Scanner(System.in);
+        
+       //その他変数準備
 
-        int inputNum;       //入力された商品番号
+        int goukeiKin = 0;  // 合計金額
+
+        Calendar cal = Calendar.getInstance();  // 売上日時記録用
+
+        int kaikeiNo = 1;   // 会計NO
+
+
+
+        // レジ全体のループ
+
         while (true) {
-            //商品名を表示する
-            System.out.println("ITEカフェシステム");
-            System.out.println(hotcoffee.getNo() + ":" + hotcoffee.getName());
-            System.out.println(icecoffee.getNo() + ":" + icecoffee.getName());
-            System.out.println(tea.getNo() + ":" + tea.getName());
-            System.out.println(mixjuice.getNo() + ":" + mixjuice.getName());
-            System.out.println(cola.getNo() + ":" + cola.getName());
-            System.out.println(cake.getNo() + ":" + cake.getName());
-            System.out.println(Chocolatecake.getNo() + ":" + Chocolatecake.getName());
-            System.out.println(hotcake.getNo() + ":" + hotcake.getName());
-            System.out.println(parfait.getNo() + ":" + parfait.getName());
-            System.out.println(Chocolateparfait.getNo() + ":" + Chocolateparfait.getName());
-            System.out.println(yokosukacurry.getNo() + ":" + yokosukacurry.getName());
-            System.out.println(harekazecurry.getNo() + ":" + harekazecurry.getName());
 
-            //商品番号を入力する
-            System.out.println("商品番号を入力してくれ...");
+            // １会計のループ
 
-            try {
-                String inputStr;
-                inputStr = scan.next();
-                inputNum = Integer.parseInt(inputStr);
+            while (true) {
 
-                System.out.println(items[inputNum - 1].getNo() + "番の" + items[inputNum - 1].getName() + "承りました、" + items[inputNum - 1].getPrice() + "円払え。");
-                System.out.println("何？金がない？こっちも商売してんだよ！金がないなら帰りな！どうしても欲しい？くそっ今回だけだぞ！");
-                System.out.println("どうだ、おいしか？そうかそうか！泣くほどおいしいか！こっちの横須賀カレーと晴風カレーも食べなさい。なに構わんさ、フフフ…。");
-                System.out.println("すまないね金を払えないやつに用はないんだ。そのカレー、サルミアッキをたっぷり入れさせてもらった。気分悪くて動けないだろ？");
-                System.out.println("さぁもっと食べなさい！");
-                //正しく処理されたらループを抜ける
-                break;
-            
-                } catch (NumberFormatException e) {
-                System.out.println("【入力エラー：数値を入力してください】");
+                // １商品のループ
+
+                while (true) {
+
+                    // タイトルヘッダーの表示
+
+                    System.out.println("■■■■■■■■■■■■■■■　ITEカフェシステム　レジ画面（商品一覧） ■■■■■■■■■■■■■■■■■■■■■");
+
+
+
+                    // 商品一覧を表示する
+
+                    for (int i = 0; i < items.length; i++) {
+
+                        if ((i + 1) % 4 != 0) {
+
+                            System.out.printf("%-20s", items[i].getNo() + ":" + items[i].getName());
+
+                        } else {
+
+                            System.out.printf("%-20s%n", items[i].getNo() + ":" + items[i].getName());
+
+                        }
+
+                    }
+
+                    // タイトルフッターの表示
+
+                    System.out.println();
+
+                    System.out.println("■■■■■■■■■■■■■■■■■■■■■■■");
+                    
+System.out.print("商品番号を入力してください：");
+
+                    int inputItemNum = Integer.parseInt(scan.next());
+
+
+
+                    System.out.print("数量(+/-)を入力してください：");
+
+                    int inputItemCount = Integer.parseInt(scan.next());
+
+
+
+                    // カゴに入れる
+
+                    kago.inputKago(items[inputItemNum - 1], inputItemCount);
+
+
+
+                    //合計金額を加算する
+
+                    goukeiKin += items[inputItemNum - 1].getPrice() * inputItemCount;
+
+
+
+                    // カゴの一覧を表示
+
+                    System.out.println("---------- 注文一覧 ----------");
+
+                    kago.dispKago();
+
+                    System.out.println("------------------------------");
+
+
+
+                    System.out.print("お会計=(k)aikei / 継続入力(n)ext：");
+
+
+
+                    String inputChar = scan.next();
+
+                    if (inputChar.charAt(0) == 'k') {
+
+                        break;
+
+
+
+                    } else if (inputChar.charAt(0) == 'n') {
+                                             continue;
+
+                    }
+
+
+
+                }
+
+
+
+                // お会計処理
+
+                // 合計金額の表示
+
+                System.out.println("-------------------------------");
+
+                System.out.println("小計     " + goukeiKin + "円");
+
+                System.out.println("消費税    " + (int) (Math.floor(goukeiKin * 0.08)) + "円");
+
+                goukeiKin = (int) (Math.floor(goukeiKin * 1.08));
+
+                System.out.println("合計金額  " + goukeiKin + "円");
+
+                System.out.println("-------------------------------");
+
+
+
+                System.out.print("以上で宜しいですか？=(y)es / 取り消し=(c)ancel : ");
+
+                String inputChar = scan.next();
+
+                if (inputChar.charAt(0) == 'y') {
+
+
+
+                    break;
+
+
+
+                } else if (inputChar.charAt(0) == 'c') {
+
+                    // 合計金額を0にする
+
+                    goukeiKin = 0;
+
+                    // カゴを空にする
+
+                    kago.clearKago();
+
+
+
+                    continue;
+
+                }
+
+
 
             }
+
+
+
+            // 代金預かり
+
+            System.out.println("-------------------------------");
+
+            System.out.print("預り金を入力してください：");
+
+            String azukariKin = scan.next();
+
+            int turiKin = Integer.parseInt(azukariKin) - goukeiKin;
+
+            System.out.println("釣銭：" + turiKin + "円");
+
+                        // 会計番号計算
+
+            System.out.println(cal.get(Calendar.YEAR) + "年"
+
+                    + cal.get(Calendar.MONTH) + "月"
+
+                    + cal.get(Calendar.DATE) + "日"
+
+                    + cal.get(Calendar.HOUR_OF_DAY) + "時"
+
+                    + cal.get(Calendar.MINUTE) + "分");
+
+
+
+            System.out.printf("お会計番号：%06d\n", kaikeiNo);
+
+            kaikeiNo++;
+
+
+
+            System.out.println("-------------------------------");
+
+
+
+            System.out.println("サルミアッキはいかが？ありがとうございました！");
+
+
+
+            // 合計金額を0にする
+
+            goukeiKin = 0;
+
+            // カゴを空にする
+
+            kago.clearKago();
+
+
+            break;
         }
+
     }
+
+
+    
 }
+                    
