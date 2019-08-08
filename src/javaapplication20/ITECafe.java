@@ -241,7 +241,7 @@ System.out.print("商品番号を入力してください：");
 
 
 
-            System.out.println("サルミアッキはいかが？ありがとうございました！");
+            System.out.println("サルミアッキはいかが？ありがとうございました！ ");
 
 
 
