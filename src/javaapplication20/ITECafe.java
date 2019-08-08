@@ -40,45 +40,56 @@ public class ITECafe {
         items[10] = yokosukacurry;
         items[11] = harekazecurry;
 
-        System.out.println("ITEカフェシステム");
-
-        int goukei = 0;
-        Scanner sc = new Scanner(System.in);
-        
         while (true) {
-            
-            System.out.println("商品番号を入力してください：");
 
+            System.out.println("ITEカフェシステム");
+
+            int goukei = 0;
+            Scanner sc = new Scanner(System.in);
+
+            while (true) {
+
+                System.out.println("商品番号を入力してください：");
+
+                String input = sc.next();
+                int no = Integer.parseInt(input);
+
+                int nedan = items[no - 1].getPrice();
+
+                System.out.println("数量を入力してください：");
+                input = sc.next();
+                int suu = Integer.parseInt(input);
+
+                goukei += nedan * suu;
+
+                System.out.println("合計金額は" + goukei + "円です");
+
+                System.out.println("以上ですか？ 1で終了");
+                input = sc.next();
+                suu = Integer.parseInt(input);
+
+                if (suu == 1) {
+                    break;
+                }
+
+            }
+
+            System.out.println("代金を入力してください");
             String input = sc.next();
-            int no = Integer.parseInt(input);
-
-            int nedan = items[no - 1].getPrice();
-
-            System.out.println("数量を入力してください：");
-            input = sc.next();
             int suu = Integer.parseInt(input);
 
-            goukei += nedan * suu ;
+            System.out.println("お釣りは" + (suu - goukei) + "円です");
 
-            System.out.println("合計金額は" + goukei + "円です");
-            
-            System.out.println("以上ですか？ 1で終了");
+            System.out.println("システムを終了しますか?　１で終了");
             input = sc.next();
             suu = Integer.parseInt(input);
-            
-            if( suu == 1 ){
+            System.out.println("ありがとうございました");
+            if (suu == 1) {
                 break;
+
             }
-            
+
         }
 
-        
-        System.out.println("代金を入力してください");
-        String input = sc.next();
-        int suu = Integer.parseInt(input);
-
-        System.out.println("お釣りは" + (suu - goukei) + "円です");
-
     }
-    
 }
